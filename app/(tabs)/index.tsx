@@ -6,10 +6,14 @@ export default function TelaAcesso() {
   const [senha, setSenha] = useState('');
 
   const handleLogin = () => {
-    if (email.includes('@') && senha.length > 6) {
-      console.log("✅ Acesso autorizado para: " + email + ", Usando a senha: " + senha);
+    const emailValido = email.includes('@');
+    const senhaValida = senha.length > 6;
+
+    if (emailValido && senhaValida) {
+      console.log("✅ Acesso autorizado para:", email);
+      console.table({ email, senha });
     } else {
-      console.log("❌ Falha no login: E-mail inválido ou senha muito curta.");
+      console.log("❌ Falha no login: Verifique os critérios de validação");
     }
   };
 
@@ -17,14 +21,14 @@ export default function TelaAcesso() {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source = {require('../../assets/images/logo.png')}
+        source={require('../../assets/images/logo.png')}
         resizeMode="contain"
       />
+      
       <Text style={styles.titulo}>Acesso ao Sistema</Text>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>E-mail:</Text>
-
         <TextInput
           style={styles.input}
           placeholder="exemplo@email.com"
@@ -34,11 +38,17 @@ export default function TelaAcesso() {
           keyboardType="email-address"
           autoCorrect={false}
         />
+        
+        {email.length > 0 && (
+          <Text style={styles.botaoTexto}>
+            Logando como: <Text style={styles.botaoTexto}>{email}</Text>
+          </Text>
+        )}
 
         <Text style={styles.label}>Senha:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Digite sua senha (min. 6 caracteres)"
+          placeholder="Digite sua senha (min. 7 caracteres)"
           value={senha}
           onChangeText={setSenha}
           secureTextEntry={true}
@@ -62,6 +72,12 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: '#068e8eff',
   },
+  logo: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
   titulo: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -74,7 +90,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#ffffffff',
+    color: '#ffffff',
     marginBottom: 5,
     fontWeight: '600',
   },
@@ -85,6 +101,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     fontSize: 16,
     backgroundColor: '#fff',
+  },
+  textoAjuda: {
+    color: '#71ff97ff',
+    fontSize: 12,
+    marginTop: 5,
     marginBottom: 15,
   },
   botao: {
@@ -97,11 +118,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  logo: {
-    width: 300,
-    height: 150,
-    alignSelf: 'center',
-    marginBottom: 20,
   },
 });
